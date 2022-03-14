@@ -52,7 +52,7 @@ TEST(LedDriver, TurnOnLedOne)
 
 TEST(LedDriver, TurnOnAllLeds)
 {
-  LedDriver_TurnOnAllLeds(&virtualLeds);
+  LedDriver_TurnOnAllLeds();
   UNSIGNED_LONGS_EQUAL(0xffff, virtualLeds);
 }
 
@@ -73,6 +73,31 @@ TEST(LedDriver, TurnOnMultipleLeds)
 }
 
 
+TEST(LedDriver, LedMemoryIsNotReadable)
+{
+  virtualLeds = 0xffff;
+  LedDriver_TurnOn(8);
+  UNSIGNED_LONGS_EQUAL(0x80, virtualLeds);
+}
+
+TEST(LedDriver, OutofBoundsTurnOnDoesNoHarm)
+{
+  LedDriver_TurnOn(-1);
+  LedDriver_TurnOn(0);
+  LedDriver_TurnOn(17);
+  LedDriver_TurnOn(3141);
+  UNSIGNED_LONGS_EQUAL(0, virtualLeds);
+}
+
+TEST(LedDriver, OutofBoundsTurnOffDoesNoHarm)
+{
+  LedDriver_TurnOnAllLeds();
+  LedDriver_TurnOff(-1);
+  LedDriver_TurnOff(0);
+  LedDriver_TurnOff(17);
+  LedDriver_TurnOff(3141);
+  UNSIGNED_LONGS_EQUAL(0xFFFF, virtualLeds);
+}
 
 
 

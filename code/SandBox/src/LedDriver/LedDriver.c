@@ -34,14 +34,21 @@ enum{
 };
 
 static uint16_t * ledAddress;
+static uint16_t ledsImage;   // store the value of the bits at all times. I/O map variable not readable
 void LedDriver_Create(uint16_t *address)
 {
     ledAddress = address;
+    ledsImage = 0;
     *ledAddress = ALL_LEDS_OFF;
 }
 
 void LedDriver_Destroy(void)
 {
+}
+
+void updateHardware()
+{
+    *ledAddress = ledsImage;
 }
 
 // adding static to not change global namespace
@@ -50,17 +57,27 @@ static uint16_t convertLedNumberToBit(int ledNumber)
     return 1<<(ledNumber-1);
 }
 
-void LedDriver_TurnOnAllLeds(uint16_t * address)
+void LedDriver_TurnOnAllLeds()
 {
-    *address = ALL_LEDS_ON;
+    ledsImage = ALL_LEDS_ON;
+    updateHardware();
 }
 
 void LedDriver_TurnOn(int ledNumber)
 {
-    *ledAddress |= convertLedNumberToBit(ledNumber);
+    if( ledNumber <=0 || ledNumber > 16)
+        return;
+
+    ledsImage |= convertLedNumberToBit(ledNumber);
+    updateHardware();
 }
 
 void LedDriver_TurnOff(int ledNumber)
 {
-    *ledAddress &= ~(convertLedNumberToBit(ledNumber));
+    if( ledNumber <=0 || ledNumber > 16)
+        return;
+
+    ledsImage &= ~(convertLedNumberToBit(ledNumber));
+    updateHardware();
 }
+
