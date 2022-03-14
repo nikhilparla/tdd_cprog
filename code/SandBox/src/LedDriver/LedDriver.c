@@ -28,23 +28,39 @@
 #include <stdlib.h>
 #include <memory.h>
 
+enum{
+    ALL_LEDS_ON = ~0,
+    ALL_LEDS_OFF = ~ALL_LEDS_ON
+};
+
 static uint16_t * ledAddress;
 void LedDriver_Create(uint16_t *address)
 {
     ledAddress = address;
-    *ledAddress = 0;
+    *ledAddress = ALL_LEDS_OFF;
 }
 
 void LedDriver_Destroy(void)
 {
 }
 
+// adding static to not change global namespace
+static uint16_t convertLedNumberToBit(int ledNumber)
+{
+    return 1<<(ledNumber-1);
+}
+
+void LedDriver_TurnOnAllLeds(uint16_t * address)
+{
+    *address = ALL_LEDS_ON;
+}
+
 void LedDriver_TurnOn(int ledNumber)
 {
-    *ledAddress = 1;
+    *ledAddress |= convertLedNumberToBit(ledNumber);
 }
 
 void LedDriver_TurnOff(int ledNumber)
 {
-    *ledAddress = 0;
+    *ledAddress &= ~(convertLedNumberToBit(ledNumber));
 }
