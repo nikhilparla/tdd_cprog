@@ -13,7 +13,8 @@ objs/tests/LedDriver/LedDriverTest.o: tests/LedDriver/LedDriverTest.cpp \
  /home/nikhil/cpputest/include/CppUTest/TestFailure.h \
  /home/nikhil/cpputest/include/CppUTest/TestPlugin.h \
  /home/nikhil/cpputest/include/CppUTest/MemoryLeakWarningPlugin.h \
- /home/nikhil/cpputest/include/CppUTest/MemoryLeakDetectorNewMacros.h
+ /home/nikhil/cpputest/include/CppUTest/MemoryLeakDetectorNewMacros.h \
+ mocks/RuntimeErrorStub.h mocks/RuntimeError.h
 
 /home/nikhil/cpputest/include/CppUTest/MemoryLeakDetectorNewMacros.h:
 
@@ -44,3 +45,7 @@ include/LedDriver/LedDriver.h:
 /home/nikhil/cpputest/include/CppUTest/MemoryLeakWarningPlugin.h:
 
 /home/nikhil/cpputest/include/CppUTest/MemoryLeakDetectorNewMacros.h:
+
+mocks/RuntimeErrorStub.h:
+
+mocks/RuntimeError.h:
