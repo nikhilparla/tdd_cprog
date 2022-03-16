@@ -32,6 +32,6 @@ INCLUDE_DIRS =\
   
 #CPPUTEST_WARNINGFLAGS += -pedantic-errors -Wconversion -Wshadow  -Wextra
 CPPUTEST_WARNINGFLAGS += -Wall -Werror -Wswitch-default -Wswitch-enum 
-
+CPPUTEST_EXE_FLAGS += -v -c
 
 include $(CPPUTEST_HOME)/build/MakefileWorker.mk
