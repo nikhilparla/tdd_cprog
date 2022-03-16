@@ -78,9 +78,15 @@ static bool IsLedOutOfBounds(int ledNumber)
     return (ledNumber < FIRST_LED || ledNumber > LAST_LED);
 }
 
-void LedDriver_TurnOnAllLeds()
+void LedDriver_TurnAllOn()
 {
     ledsImage = ALL_LEDS_ON;
+    updateHardware();
+}
+
+void LedDriver_TurnAllOff()
+{
+    ledsImage = ALL_LEDS_OFF;
     updateHardware();
 }
 
@@ -102,3 +108,15 @@ void LedDriver_TurnOff(int ledNumber)
     updateHardware();
 }
 
+bool LedDriver_IsOn(int ledNumber)
+{
+    if(IsLedOutOfBounds(ledNumber))
+        return false;
+
+    return (ledsImage & convertLedNumberToBit(ledNumber));
+}
+
+bool LedDriver_IsOff(int ledNumber)
+{
+    return !(LedDriver_IsOn(ledNumber));
+}

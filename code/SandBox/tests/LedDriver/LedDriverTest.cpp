@@ -53,7 +53,7 @@ TEST(LedDriver, TurnOnLedOne)
 
 TEST(LedDriver, TurnOnAllLeds)
 {
-  LedDriver_TurnOnAllLeds();
+  LedDriver_TurnAllOn();
   UNSIGNED_LONGS_EQUAL(0xffff, virtualLeds);
 }
 
@@ -92,7 +92,7 @@ TEST(LedDriver, OutofBoundsTurnOnDoesNoHarm)
 
 TEST(LedDriver, OutofBoundsTurnOffDoesNoHarm)
 {
-  LedDriver_TurnOnAllLeds();
+  LedDriver_TurnAllOn();
   LedDriver_TurnOff(-1);
   LedDriver_TurnOff(0);
   LedDriver_TurnOff(17);
@@ -109,26 +109,38 @@ IGNORE_TEST(LedDriver, OutofBoundsProducesRunTimeError)
 }
 #endif
 
+TEST(LedDriver, IsOn)
+{
+  CHECK_FALSE(LedDriver_IsOn(11));
+  LedDriver_TurnOn(11);
+  CHECK_TRUE(LedDriver_IsOn(11));
+}
 
+TEST(LedDriver, IsOff)
+{
+  CHECK_TRUE(LedDriver_IsOff(11));
+  LedDriver_TurnOn(11);
+  CHECK_FALSE(LedDriver_IsOff(11));
+}
 
+TEST(LedDriver, OutofBoundsLedsAreAlwaysOff)
+{
+  CHECK_FALSE(LedDriver_IsOn(21));
+  CHECK_TRUE(LedDriver_IsOff(-21));
+  CHECK_FALSE(LedDriver_IsOn(-5));
+  CHECK_TRUE(LedDriver_IsOff(-5));
+}
 
+TEST(LedDriver, TurnOffMultipleLeds)
+{
+  LedDriver_TurnAllOn();
+  LedDriver_TurnOff(9);
+  LedDriver_TurnOff(8);
+  UNSIGNED_LONGS_EQUAL(0xffff & (~0x180), virtualLeds);
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+TEST(LedDriver, TurnAllOff)
+{
+  LedDriver_TurnAllOn();
+  LedDriver_TurnAllOff();
+}
