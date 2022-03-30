@@ -30,6 +30,21 @@
 #include "stdint.h"
 #include "stdbool.h"
 
+enum{
+    ALL_LEDS_OFF = ~0,
+    ALL_LEDS_ON = ~ALL_LEDS_OFF,
+};
+
+enum {
+    FIRST_LED = 1,
+    LAST_LED = 16
+};
+
+enum {
+  LED_OFF = 1,
+  LED_ON = 0
+};
+
 void LedDriver_Create(uint16_t * address);
 void LedDriver_Destroy(void);
 void LedDriver_TurnOn(int ledNumber);

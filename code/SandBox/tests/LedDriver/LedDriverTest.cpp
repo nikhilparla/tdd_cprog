@@ -22,7 +22,7 @@ extern "C"
 }
 
 #include "CppUTest/TestHarness.h"
-#include "RuntimeErrorStub.h"
+// #include "RuntimeErrorStub.h"
 
 TEST_GROUP(LedDriver)
 {
@@ -40,24 +40,26 @@ TEST_GROUP(LedDriver)
 
 TEST(LedDriver, LedsOffAfterCreate)
 {
-  uint16_t virtualLeds = 0xffff;
+  uint16_t virtualLeds = 0;
   LedDriver_Create(&virtualLeds);
-  UNSIGNED_LONGS_EQUAL(0, virtualLeds);
-}
-
-TEST(LedDriver, TurnOnLedOne)
-{
-  LedDriver_TurnOn(1);
-  UNSIGNED_LONGS_EQUAL(1, virtualLeds);
-}
-
-TEST(LedDriver, TurnOnAllLeds)
-{
-  LedDriver_TurnAllOn();
+  // printf("\n leds_OFF = %x \n", ALL_LEDS_OFF);
+  // printf("\n leds_ON = %x \n", ALL_LEDS_ON);
   UNSIGNED_LONGS_EQUAL(0xffff, virtualLeds);
 }
 
-TEST(LedDriver, TurnOffAnyLed)
+IGNORE_TEST(LedDriver, TurnOnLedOne)
+{
+  LedDriver_TurnOn(LED_ON);
+  UNSIGNED_LONGS_EQUAL(LED_ON, virtualLeds);
+}
+
+IGNORE_TEST(LedDriver, TurnOnAllLeds)
+{
+  LedDriver_TurnAllOn();
+  UNSIGNED_LONGS_EQUAL(ALL_LEDS_ON, virtualLeds);
+}
+
+IGNORE_TEST(LedDriver, TurnOffAnyLed)
 {
   LedDriver_TurnOn(9);
   LedDriver_TurnOn(8);
@@ -65,7 +67,7 @@ TEST(LedDriver, TurnOffAnyLed)
   UNSIGNED_LONGS_EQUAL(0x100, virtualLeds);
 }
 
-TEST(LedDriver, TurnOnMultipleLeds)
+IGNORE_TEST(LedDriver, TurnOnMultipleLeds)
 {
   LedDriver_TurnOn(9);
   LedDriver_TurnOn(8);
@@ -74,14 +76,14 @@ TEST(LedDriver, TurnOnMultipleLeds)
 }
 
 
-TEST(LedDriver, LedMemoryIsNotReadable)
+IGNORE_TEST(LedDriver, LedMemoryIsNotReadable)
 {
   virtualLeds = 0xffff;
   LedDriver_TurnOn(8);
   UNSIGNED_LONGS_EQUAL(0x80, virtualLeds);
 }
 
-TEST(LedDriver, OutofBoundsTurnOnDoesNoHarm)
+IGNORE_TEST(LedDriver, OutofBoundsTurnOnDoesNoHarm)
 {
   LedDriver_TurnOn(-1);
   LedDriver_TurnOn(0);
@@ -90,7 +92,7 @@ TEST(LedDriver, OutofBoundsTurnOnDoesNoHarm)
   UNSIGNED_LONGS_EQUAL(0, virtualLeds);
 }
 
-TEST(LedDriver, OutofBoundsTurnOffDoesNoHarm)
+IGNORE_TEST(LedDriver, OutofBoundsTurnOffDoesNoHarm)
 {
   LedDriver_TurnAllOn();
   LedDriver_TurnOff(-1);
@@ -109,21 +111,21 @@ IGNORE_TEST(LedDriver, OutofBoundsProducesRunTimeError)
 }
 #endif
 
-TEST(LedDriver, IsOn)
+IGNORE_TEST(LedDriver, IsOn)
 {
   CHECK_FALSE(LedDriver_IsOn(11));
   LedDriver_TurnOn(11);
   CHECK_TRUE(LedDriver_IsOn(11));
 }
 
-TEST(LedDriver, IsOff)
+IGNORE_TEST(LedDriver, IsOff)
 {
   CHECK_TRUE(LedDriver_IsOff(11));
   LedDriver_TurnOn(11);
   CHECK_FALSE(LedDriver_IsOff(11));
 }
 
-TEST(LedDriver, OutofBoundsLedsAreAlwaysOff)
+IGNORE_TEST(LedDriver, OutofBoundsLedsAreAlwaysOff)
 {
   CHECK_FALSE(LedDriver_IsOn(21));
   CHECK_TRUE(LedDriver_IsOff(-21));
@@ -131,7 +133,7 @@ TEST(LedDriver, OutofBoundsLedsAreAlwaysOff)
   CHECK_TRUE(LedDriver_IsOff(-5));
 }
 
-TEST(LedDriver, TurnOffMultipleLeds)
+IGNORE_TEST(LedDriver, TurnOffMultipleLeds)
 {
   LedDriver_TurnAllOn();
   LedDriver_TurnOff(9);
@@ -139,7 +141,7 @@ TEST(LedDriver, TurnOffMultipleLeds)
   UNSIGNED_LONGS_EQUAL(0xffff & (~0x180), virtualLeds);
 }
 
-TEST(LedDriver, TurnAllOff)
+IGNORE_TEST(LedDriver, TurnAllOff)
 {
   LedDriver_TurnAllOn();
   LedDriver_TurnAllOff();

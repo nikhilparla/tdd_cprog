@@ -29,22 +29,13 @@
 #include <memory.h>
 #include <stdbool.h>
 
-enum{
-    ALL_LEDS_ON = ~0,
-    ALL_LEDS_OFF = ~ALL_LEDS_ON
-};
-
-enum {
-    FIRST_LED = 1,
-    LAST_LED = 16
-};
 
 static uint16_t * ledAddress;
 static uint16_t ledsImage;   // store the value of the bits at all times. I/O map variable not readable
 void LedDriver_Create(uint16_t *address)
 {
     ledAddress = address;
-    ledsImage = 0;
+    ledsImage = 0xffff;
     *ledAddress = ALL_LEDS_OFF;
 }
 

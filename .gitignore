@@ -1,1 +1,5 @@
+*.o
+*.d
+*.a
+*.json
 "code/SandBox/unity.framework/*"
